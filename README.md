@@ -1,49 +1,186 @@
 # Social Media Addiction Prediction
 
-This project aims to predict social media addiction based on various student-related features. The 'addicted_score' was transformed into a binary classification problem, where a score of 7 or higher indicates 'addicted' and lower than 7 indicates 'not addicted'.
+This project predicts social media addiction among students using machine learning models. The addiction score is transformed into a binary classification problem: addicted (score ≥ 7) or not addicted (score < 7).
 
-## Data Source
+## Table of Contents
+- [Overview](#overview)
+- [Dataset](#dataset)
+- [Project Structure](#project-structure)
+- [Data Preprocessing](#data-preprocessing)
+- [Exploratory Data Analysis](#exploratory-data-analysis)
+- [Model Training](#model-training)
+- [Model Evaluation](#model-evaluation)
+- [Usage](#usage)
+- [Deployment](#deployment)
+- [Requirements](#requirements)
 
-The dataset used for this project is `Students Social Media Addiction.csv`, obtained from KaggleHub (`adilshamim8/social-media-addiction-vs-relationships`).
+## Overview
+
+This machine learning project analyzes student social media usage patterns and provides predictions on addiction levels. The project includes:
+- Data exploration and preprocessing
+- Model training and evaluation
+- REST API for predictions
+- AWS Lambda deployment support
+
+## Dataset
+
+The dataset used is `Students-Social-Media-Addiction.csv`, obtained from KaggleHub (`adilshamim8/social-media-addiction-vs-relationships`).
+
+**Key Features:**
+- Age, gender, academic level
+- Average daily usage hours, most used platform
+- Sleep hours per night, mental health score
+- Conflicts over social media, academic performance impact
+- Relationship status
+
+## Project Structure
+
+```
+├── SOCIALMEDIADDICTION.ipynb          # Main analysis and experimentation notebook
+├── train.py                           # Model training script
+├── predict.py                         # FastAPI REST API server
+├── lambda.py                          # AWS Lambda handler
+├── lambda-test.py                     # Lambda function testing
+├── test.py                            # Model testing utilities
+├── Students-Social-Media-Addiction.csv # Dataset
+├── requirements.txt                   # Python dependencies
+├── Dockerfile                         # Container image for AWS Lambda
+├── Pipfile                            # Dependency lock file
+└── README.md                          # This file
+```
 
 ## Data Preprocessing
 
-1.  **Column Renaming**: All column names were converted to lowercase for consistency.
-2.  **Irrelevant Feature Removal**: The `student_id` column was dropped as it does not contribute to the prediction.
-3.  **Missing Value Check**: The dataset was checked for missing values, and none were found.
-4.  **One-Hot Encoding**: Categorical features were converted into numerical format using `DictVectorizer`.
-5.  **Feature Scaling**: Numerical features were scaled using `StandardScaler` to normalize their ranges.
+1. **Column Renaming**: Converted all column names to lowercase for consistency
+2. **Irrelevant Feature Removal**: Dropped `student_id` as it doesn't contribute to predictions
+3. **Missing Value Check**: Verified no missing values in the dataset
+4. **One-Hot Encoding**: Converted categorical features using `DictVectorizer`
+5. **Feature Scaling**: Normalized numerical features using `StandardScaler`
 
-## Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis
 
-Key insights from the EDA included:
+Key insights from EDA:
 
-*   **Age Distribution**: The age distribution of students was visualized.
-*   **Addiction Score Distribution**: The distribution of the `addicted_score` was examined, and a log transformation was applied to observe its distribution.
-*   **Mutual Information**: `conflicts_over_social_media`, `mental_health_score`, `avg_daily_usage_hours`, and `sleep_hours_per_night` showed high mutual information with the `addicted_score`.
-*   **Correlation Matrix**: A heatmap of numerical features revealed strong positive correlations between `avg_daily_usage_hours` and `conflicts_over_social_media` with `addicted_score`, and strong negative correlations between `sleep_hours_per_night` and `mental_health_score` with `addicted_score`.
+- **Age Distribution**: Visualized student age ranges
+- **Addiction Score Distribution**: Examined distribution and applied log transformation
+- **Mutual Information**: Identified high-impact features:
+  - `conflicts_over_social_media`
+  - `mental_health_score`
+  - `avg_daily_usage_hours`
+  - `sleep_hours_per_night`
+- **Correlation Analysis**: 
+  - Positive correlations: `avg_daily_usage_hours`, `conflicts_over_social_media` with addiction
+  - Negative correlations: `sleep_hours_per_night`, `mental_health_score` with addiction
 
 ## Model Training
 
-The preprocessed data was split into training, validation, and test sets. Two classification models were trained:
+The project trains and evaluates classification models using 80-20 train-test split with 25% validation set.
 
-1.  **Logistic Regression**
-2.  **Random Forest Classifier**
+**Trained Models:**
+1. Logistic Regression
+2. Random Forest Classifier
+
+Artifacts saved:
+- `logistic_regression_model.pkl` - Trained model
+- `scaler.pkl` - Feature scaler
+- `dict_vectorizer.pkl` - Categorical feature encoder
 
 ## Model Evaluation
 
-Both models were evaluated on the validation and test sets using classification reports and AUC scores. The results showed excellent performance:
+Both models demonstrate exceptional performance:
 
 ### Logistic Regression
-*   **Validation Set**: Accuracy: 1.00, AUC Score: 1.00
-*   **Test Set**: Accuracy: 0.99, AUC Score: 0.999
+- **Validation Set**: Accuracy: 1.00, AUC Score: 1.00
+- **Test Set**: Accuracy: 0.99, AUC Score: 0.999
 
 ### Random Forest
-*   **Validation Set**: Accuracy: 1.00, AUC Score: 1.00
-*   **Test Set**: Accuracy: 0.99, AUC Score: 0.999
+- **Validation Set**: Accuracy: 1.00, AUC Score: 1.00
+- **Test Set**: Accuracy: 0.99, AUC Score: 0.999
 
-Both models performed exceptionally well, indicating strong predictive capabilities on this dataset.
+## Usage
 
-## Saved Models
+### Training the Model
 
-The trained Logistic Regression model (`logistic_regression_model.pkl`) and the `StandardScaler` (`scaler.pkl`) have been saved using `joblib` for future use.
+```bash
+python train.py
+```
+
+This script:
+- Loads and preprocesses the data
+- Trains the Logistic Regression model
+- Saves model artifacts for deployment
+
+### Making Predictions via REST API
+
+```bash
+python predict.py
+```
+
+Then send POST requests to `http://localhost:8000/predict`:
+
+```json
+{
+  "age": 20,
+  "gender": "Male",
+  "academic_level": "Bachelor",
+  "avg_daily_usage_hours": 6.5,
+  "most_used_platform": "Instagram",
+  "sleep_hours_per_night": 6,
+  "mental_health_score": 5,
+  "conflicts_over_social_media": 3,
+  "affects_academic_performance": "Yes",
+  "relationship_status": "Single"
+}
+```
+
+Response:
+```json
+{
+  "prediction": 1,
+  "probability": 0.95,
+  "addiction_status": "Addicted"
+}
+```
+
+### Testing Lambda Function
+
+```bash
+python lambda-test.py
+```
+
+## Deployment
+
+### AWS Lambda
+
+The project includes Docker support for AWS Lambda deployment:
+
+```bash
+docker build -t social-media-addiction-lambda .
+```
+
+**Lambda Handler:** `lambda.lambda_handler`
+
+The Lambda function:
+- Accepts JSON requests with prediction input features
+- Returns predictions with addiction status and probability
+- Handles errors gracefully
+
+## Requirements
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+**Core Dependencies:**
+- `numpy` - Numerical computations
+- `scikit-learn` - Machine learning models and preprocessing
+- `joblib` - Model serialization
+- `pandas` - Data processing
+- `fastapi` - REST API framework (for predict.py)
+- `uvicorn` - ASGI server (for predict.py)
+
+## Development
+
+The main analysis and experimentation is documented in `SOCIALMEDIADDICTION.ipynb` Jupyter notebook.
