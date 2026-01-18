@@ -173,6 +173,8 @@ python lambda-test.py
 
 or Watch the video here -> https://github.com/mugunth19/Social-Media-Addiction-using-ML/blob/main/Screen_Recording_20260118_151104_Chrome.mp4
 
+https://github.com/user-attachments/assets/0cc7e533-ecad-412e-952b-2d3fc7d4030d
+
 <video src="https://github.com/mugunth19/Social-Media-Addiction-using-ML/blob/main/Screen_Recording_20260118_151104_Chrome.mp4" controls title="Demo" width="600"></video>
 
 
