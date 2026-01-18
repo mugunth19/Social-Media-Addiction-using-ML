@@ -142,17 +142,11 @@ Response:
 }
 ```
 
-### Testing Lambda Function
-
-```bash
-python lambda-test.py
-```
-
-## Deployment
+## Cloud Deployment
 
 ### AWS Lambda
 
-The project includes Docker support for AWS Lambda deployment:
+This project is docerized and deployed in AWS Lambda functions. Use this below function to test the lambda deployment (The lambda API url is given inside the python file. We can edit the input data details and run the file to obsewrve the inference).  
 
 ```bash
 docker build -t social-media-addiction-lambda .
@@ -164,6 +158,17 @@ The Lambda function:
 - Accepts JSON requests with prediction input features
 - Returns predictions with addiction status and probability
 - Handles errors gracefully
+
+### Testing Lambda Function
+
+
+```bash
+python lambda-test.py
+```
+
+## Since, the AWS free tier ending mid of January, the Lambda deployment url may not work, hence adding a video of the deployment here
+
+Watch the viudeo here -> 
 
 ## Requirements
 
