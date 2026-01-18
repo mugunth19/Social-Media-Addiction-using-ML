@@ -169,7 +169,12 @@ python lambda-test.py
 
 ## Since, the AWS free tier ending mid of January, the Lambda deployment url may not work, hence adding a video of the deployment here
 
-Watch the viudeo here -> https://github.com/mugunth19/Social-Media-Addiction-using-ML/blob/main/Screen_Recording_20260118_151104_Chrome.mp4
+<img src="Screen_Recording_20260118_151104_Chrome.gif" alt="AWS Deployment" width="100%">
+
+or Watch the video here -> 
+
+<video src="https://github.com/mugunth19/Social-Media-Addiction-using-ML/blob/main/Screen_Recording_20260118_151104_Chrome.mp4" controls title="Demo" width="600"></video>
+
 
 ## Requirements
 
