@@ -171,7 +171,7 @@ python lambda-test.py
 
 <img src="Screen_Recording_20260118_151104_Chrome.gif" alt="AWS Deployment" width="100%">
 
-or Watch the video here -> 
+or Watch the video here -> https://github.com/mugunth19/Social-Media-Addiction-using-ML/blob/main/Screen_Recording_20260118_151104_Chrome.mp4
 
 <video src="https://github.com/mugunth19/Social-Media-Addiction-using-ML/blob/main/Screen_Recording_20260118_151104_Chrome.mp4" controls title="Demo" width="600"></video>
 
