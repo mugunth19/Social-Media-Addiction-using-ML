@@ -147,6 +147,7 @@ Response:
 ### AWS Lambda
 
 This project is docerized and deployed in AWS Lambda functions. Use this below function to test the lambda deployment (The lambda API url is given inside the python file. We can edit the input data details and run the file to obsewrve the inference).  
+ ![AWS Deployment](1768728975874.jpg)
 
 ```bash
 docker build -t social-media-addiction-lambda .
@@ -168,7 +169,7 @@ python lambda-test.py
 
 ## Since, the AWS free tier ending mid of January, the Lambda deployment url may not work, hence adding a video of the deployment here
 
-Watch the viudeo here -> 
+Watch the viudeo here -> https://github.com/mugunth19/Social-Media-Addiction-using-ML/blob/main/Screen_Recording_20260118_151104_Chrome.mp4
 
 ## Requirements
 
